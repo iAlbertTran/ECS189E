@@ -53,6 +53,8 @@ public class TestInstructor {
         this.instructor.addHomework("Instructor", "Test", 2017, "Homework1", "TestHomework");
         this.student.submitHomework("Student", "Homework1", "TestAnswer", "Test", 2017);
         this.instructor.assignGrade("Instructor", "Test", 2017, "Homework1", "Student", 75);
+        assertTrue(this.instructor.homeworkExists("Test", 2017, "Homework1"));
+        assertTrue(this.student.hasSubmitted("Student", "Homework1", "Test", 2017));
         assertNotNull(this.instructor.getGrade("Test", 2017, "Homework1", "Student"));
     }
 
@@ -76,6 +78,7 @@ public class TestInstructor {
         this.student.registerForClass("Student", "Test", 2017);
         this.student.submitHomework("Student", "Homework1", "TestAnswer", "Test", 2017);
         this.instructor.assignGrade("Instructor", "Test", 2017, "Homework1", "Student", 75);
+        assertTrue(!this.instructor.homeworkExists("Test", 2017, "Homework1"));
         assertNull("Failure - a grade has been given for a homework that has not been assigned", this.instructor.getGrade("Test", 2017, "Homework1", "Student"));
     }
 
@@ -87,6 +90,7 @@ public class TestInstructor {
         this.instructor.addHomework("InstructorA", "Test", 2017, "Homework1", "TestHomework");
         this.student.registerForClass("Student", "Test", 2017);
         this.instructor.assignGrade("Instructor", "Test", 2017, "Homework1", "Student", 75);
+        assertTrue(!this.student.hasSubmitted("Student", "Homework1", "Test", 2017));
         assertNull("Failure - a grade has been given for a homework that a student has not submitted yet", this.instructor.getGrade("Test", 2017, "Homework1", "Student"));
     }
 
@@ -132,6 +136,7 @@ public class TestInstructor {
         this.instructor.addHomework("Instructor", "Test", 2017, "Homework1", "TestHomework");
         this.student.submitHomework("Student", "Homework1", "TestAnswer", "Test", 2017);
         this.instructor.assignGrade("Instructor", "Test", 2017, "Homework1", "Student", 75);
+        assertTrue(!this.admin.classExists("Test", 2017));
         assertNull(this.instructor.getGrade("Test", 2017, "Homework1", "Student"));
     }
 
