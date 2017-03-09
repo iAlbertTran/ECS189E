@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by Albert on 3/1/2017.
@@ -72,6 +73,8 @@ public class TestAdmin {
         this.admin.createClass("TestA", 2017, "Instructor1", 10);
         this.admin.createClass("TestB", 2017, "Instructor1", 10);
         this.admin.createClass("TestC", 2017, "Instructor1", 10);
+        assertTrue(this.admin.classExists("TestA", 2017));
+        assertTrue(this.admin.classExists("TestB", 2017));
         assertFalse("Failure - a third class was created with an instructor already teaching two classes in the same year", this.admin.classExists("TestC", 2017));
     }
 
@@ -82,6 +85,8 @@ public class TestAdmin {
         this.admin.createClass("TestA", 2017, "Instructor1", 10);
         this.admin.createClass("TestB", 2018, "Instructor1", 10);
         this.admin.createClass("TestC", 2019, "Instructor1", 10);
+        assertTrue(this.admin.classExists("TestA", 2017));
+        assertTrue(this.admin.classExists("TestB", 2018));
         assertTrue(this.admin.classExists("TestC", 2019));
     }
 
@@ -92,6 +97,8 @@ public class TestAdmin {
         this.admin.createClass("TestA", 2017, "Instructor1", 10);
         this.admin.createClass("TestB", 2018, "Instructor1", 10);
         this.admin.createClass("TestC", 2018, "Instructor1", 10);
+        assertTrue(this.admin.classExists("TestA", 2017));
+        assertTrue(this.admin.classExists("TestB", 2018));
         assertTrue(this.admin.classExists("TestC", 2018));
     }
 
@@ -101,6 +108,7 @@ public class TestAdmin {
     public void testMakeClass9() {
         this.admin.createClass("Test", 2017, "InstructorA", 5);
         this.admin.createClass("Test", 2017, "InstructorB", 5);
+        assertEquals("InstructorA", this.admin.getClassInstructor("Test", 2017));
         assertFalse("Failure - a second class with the exact name and year of an existing class was created", this.admin.getClassInstructor("Test", 2017) == "InstructorB");
     }
 
@@ -125,6 +133,9 @@ public class TestAdmin {
         this.student2.registerForClass("Student2", "Test", 2017);
         this.student3.registerForClass("Student3", "Test", 2017);
         this.admin.changeCapacity("Test", 2017, 2);
+        assertTrue(this.student1.isRegisteredFor("Student1", "Test", 2017));
+        assertTrue(this.student2.isRegisteredFor("Student2", "Test", 2017));
+        assertTrue(this.student3.isRegisteredFor("Student3", "Test", 2017));
         assertFalse("Failure - a class had its capacity changed to a value lower than the number of students enrolled", this.admin.getClassCapacity("Test", 2017) < 3);
     }
 
